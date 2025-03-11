@@ -1,4 +1,4 @@
-const products = require('./products.json');
+const players = require('./players.json');
 const sqlite3 = require('sqlite3').verbose();
 
 const DB_FILE = 'data.db';
@@ -12,16 +12,16 @@ const db = new sqlite3.Database(DB_FILE, (err) => {
 });
 
 db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS items (
-        id TEXT PRIMARY KEY,
+    db.run(`CREATE TABLE IF NOT EXISTS players (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
-        description TEXT,
-        price REAL
+        team TEXT,
+        age INTEGER
     )`);
 
-    const insertStmt = db.prepare("INSERT INTO items (id, name, description, price) VALUES (?, ?, ?, ?)");
-    products.forEach(product => {
-        insertStmt.run(product.id, product.name, product.description, product.price);
+    const insertStmt = db.prepare("INSERT INTO players (id, name, team, age) VALUES (?, ?, ?, ?)");
+    players.forEach(player => {
+        insertStmt.run(player.id, player.name, player.team, player.age);
     });
     insertStmt.finalize();
 

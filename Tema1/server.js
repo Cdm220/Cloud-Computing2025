@@ -1,29 +1,24 @@
 const http = require('http');
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('./data/data.db', (err) => {
-    if (err) {
-        console.error(err.message);
-    }
-    console.log('Connected to the data.db database.');
-});
+const { getAllPlayers, getPlayerById, createPlayer, updatePlayer, deletePlayer } = require('./controllers/playerController');
 
 const server = http.createServer((req, res) => {
-    if(req.url === '/api/products' && req.method === 'GET') {
-        db.all('SELECT * FROM items', [], (err, rows) => {
-            if (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json' })
-                res.write(JSON.stringify({ message: 'Internal Server Error' }))
-                res.end()
-            } else {
-                res.writeHead(200, { 'Content-Type': 'application/json' })
-                res.write(JSON.stringify(rows))
-                res.end()
-            }
-        });
+    if(req.url === '/api/players' && req.method === 'GET') {
+        getAllPlayers(req, res);
+    } else if(req.url.match(/\/api\/players\/([0-9]+)/) && req.method === 'GET') {
+        const id = req.url.split('/')[3];
+        getPlayerById(req, res, id);
+    } else if (req.url === '/api/players' && req.method === 'POST') {
+        createPlayer(req, res);
+    } else if (req.url.match(/\/api\/players\/([0-9]+)/) && req.method === 'PUT') {
+        const id = req.url.split('/')[3];
+        updatePlayer(req, res, id);
+    } else if (req.url.match(/\/api\/players\/([0-9])+/) && req.method === 'DELETE') {
+        const id = req.url.split('/')[3];
+        deletePlayer(req, res, id);
     } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' })
-        res.write(JSON.stringify({ message: 'Not Found' }))
-        res.end()
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.write(JSON.stringify({ message: 'Route Not Found' }));
+        res.end();
     }
 })
 

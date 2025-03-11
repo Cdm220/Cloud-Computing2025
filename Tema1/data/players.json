@@ -1,0 +1,32 @@
+[
+  {
+      "id": "1",
+      "name": "Lionel Messi",
+      "team": "Inter Miami",
+      "age": 36
+  },
+  {
+      "id": "2",
+      "name": "Cristiano Ronaldo",
+      "team": "Al-Nassr",
+      "age": 39
+  },
+  {
+      "id": "3",
+      "name": "Kylian Mbappé",
+      "team": "Paris Saint-Germain",
+      "age": 25
+  },
+  {
+      "id": "4",
+      "name": "Erling Haaland",
+      "team": "Manchester City",
+      "age": 23
+  },
+  {
+      "id": "5",
+      "name": "Bukayo Saka",
+      "team": "Arsenal",
+      "age": 21
+  }
+]
