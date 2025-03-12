@@ -38,6 +38,12 @@ function createPlayer(req, res) {
         body += chunk.toString();
     });
     req.on('end', () => {
+        if (!body.trim()) {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.write(JSON.stringify({ message: 'Bad Request: No body!' }));
+            res.end();
+            return;
+        }
         const player = JSON.parse(body);
         Player.create(player, (err, id) => {
             if (err) {
